@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import { supabase } from './supabaseClient.js'
+
 
 
 
@@ -8,16 +10,26 @@ function App() {
     const [data, setData] = useState('')
     const [valorGanho, setValorGanho] = useState('')
     const [horasTrabalhadas, setHorasTrabalhadas] = useState('')
-    function handleSubmit(e) {
+    
+    async function handleSubmit(e) {
     e.preventDefault()
-    const dadosConvertidos={
-      corridas: parseFloat(corridas),
-      valorGanho: parseFloat(valorGanho),
-      horasTrabalhadas: parseFloat(horasTrabalhadas),
-      data: data
-    }
-    console.log( dadosConvertidos )
-}
+
+    const {data: resultado, error} = await supabase
+      .from('lancamentos_diarios')
+      .insert([
+        {
+          data:data,
+          corridas: parseFloat(corridas),
+          valor_ganho: parseFloat(valorGanho),
+          horas_trabalhadas: parseFloat(horasTrabalhadas)
+        }
+      ])
+      
+      if(error) {
+          console.error('Erro ao salvar:', error)
+      } else{
+        console.log('Salvo com sucesso:', resultado)
+      }}
 
 return (
     <>
@@ -56,5 +68,4 @@ return (
     </>
   )
 }
-
 export default App
