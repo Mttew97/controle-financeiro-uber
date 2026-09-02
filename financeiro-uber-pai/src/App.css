@@ -95,3 +95,34 @@ section.gastos button {
 button:active {
   opacity: 0.85;
 }
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1rem 0;
+  justify-content: center;
+}
+
+nav button {
+  flex: 1;
+  max-width: 200px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.7rem;
+  border: 1px solid #2e323c;
+  border-radius: 8px;
+  background-color: #1a1d24;
+  color: #a1a1aa;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+nav button:hover {
+  border-color: #3f434d;
+}
+
+nav button.aba-ativa {
+  background-color: #22c55e;
+  color: #0f1115;
+  border-color: #22c55e;
+}

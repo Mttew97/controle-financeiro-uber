@@ -13,7 +13,8 @@ function App() {
     const [descricaoGasto, setdescricaoGasto] = useState('')
     const [valorGasto, setvalorGasto] = useState('')
     const [dataGasto, setdataGasto] = useState('')
-    
+    const [abaAtiva, setAbaAtiva] = useState('lancar')
+
     async function handleSubmit(e) {
     e.preventDefault()
 
@@ -62,66 +63,97 @@ function App() {
 
 return (
     <>
-     <h1>Controle Financeiro</h1>
-     <section className='lancamentos-diario'>
-      <h2>Lançamento do dia</h2>
-     <form onSubmit={handleSubmit}>
-     <label htmlFor="corridas">Quantidade de corridas</label>
-      <input 
-        id="corridas"
-        type="number"
-        value={corridas}
-        onChange={(e) => setCorridas(e.target.value)}
-      />
-      <label htmlFor="data">Data</label>
-      <input 
-        id="data"
-        type="date"
-        value={data}
-        onChange={(e) => setData(e.target.value)} 
-      />
-      <label htmlFor="valorG">Valor ganho no dia</label>
-      <input 
-        id="valorG"
-        type="number" 
-        value={valorGanho}
-        onChange={(e) => setValorGanho(e.target.value)}
-      />
-      <label htmlFor="horasT">Horas trabalhadas</label>
-      <input 
-        id="horasT"
-        type="number" 
-        value={horasTrabalhadas}
-        onChange={(e) => setHorasTrabalhadas(e.target.value)}
-      />
-      <button type="submit">Salvar</button>
-      </form>
-      </section>
-       <section className='gastos'>
-      <h2>Resgistrar gasto</h2>
-      <form onSubmit={handleSubmitGasto}>
-        <label htmlFor='descricaoGasto'>Descreva seu gasto</label>
-        <input
-        id='descricaoGasto'
-        type='text'
-        value={descricaoGasto}
-        onChange={(e) => setdescricaoGasto(e.target.value)} />
-        <label htmlFor='valorGasto'>Qual valor foi gasto</label>
-        <input
-        id='valorGasto'
-        type='number'
-        value={valorGasto}
-        onChange={(e) => setvalorGasto(e.target.value)} />
-        <label htmlFor='dataGasto'>Qual a data do gasto</label>
-        <input
-        id='dataGasto'
-        type='date'
-        value={dataGasto}
-        onChange={(e) => setdataGasto(e.target.value)} />
-        <button type="submit">Salvar Gasto</button>
-      </form>
-      </section>
-    </>
-  )
+   <nav>
+        <button
+          className={abaAtiva === 'lancar' ? 'aba-ativa' : ''}
+          onClick={() => setAbaAtiva('lancar')}
+        >
+          Lançar
+        </button>
+        <button
+          className={abaAtiva === 'resumo' ? 'aba-ativa' : ''}
+          onClick={() => setAbaAtiva('resumo')}
+        >
+          Resumo
+        </button>
+  </nav>
+    
+    <h1>Controle Financeiro</h1>
+
+    {abaAtiva === 'lancar' && (
+      <>
+          <section className='lancamentos-diario'>
+              <h2>Lançamento do dia</h2>
+              <form onSubmit={handleSubmit}>
+              <label htmlFor="corridas">Quantidade de corridas</label>
+              <input 
+                id="corridas"
+                type="number"
+                value={corridas}
+                onChange={(e) => setCorridas(e.target.value)}
+             />
+            <label htmlFor="data">Data</label>
+            <input 
+              id="data"
+              type="date"
+              value={data}
+              onChange={(e) => setData(e.target.value)} 
+            />
+            <label htmlFor="valorG">Valor ganho no dia</label>
+            <input 
+              id="valorG"
+              type="number" 
+              value={valorGanho}
+              onChange={(e) => setValorGanho(e.target.value)}
+            />
+            <label htmlFor="horasT">Horas trabalhadas</label>
+            <input 
+              id="horasT"
+              type="number" 
+              value={horasTrabalhadas}
+              onChange={(e) => setHorasTrabalhadas(e.target.value)}
+            />
+            <button type="submit">Salvar</button>
+            </form>
+        </section> 
+
+        <section className='gastos'>
+        <h2>Registrar gasto</h2>
+        <form onSubmit={handleSubmitGasto}>
+              <label htmlFor='descricaoGasto'>Descreva seu gasto</label>
+              <input
+              id='descricaoGasto'
+              type='text'
+              value={descricaoGasto}
+              onChange={(e) => setdescricaoGasto(e.target.value)} />
+              <label htmlFor='valorGasto'>Qual valor foi gasto</label>
+              <input
+              id='valorGasto'
+              type='number'
+              value={valorGasto}
+              onChange={(e) => setvalorGasto(e.target.value)} />
+              <label htmlFor='dataGasto'>Qual a data do gasto</label>
+              <input
+              id='dataGasto'
+              type='date'
+              value={dataGasto}
+              onChange={(e) => setdataGasto(e.target.value)} />
+              <button type="submit">Salvar Gasto</button>
+        </form>
+        </section>
+
+        </>
+      )}
+
+      {abaAtiva === 'resumo' &&(
+        <>
+          <p>Em breve</p>
+        </>
+      )}
+      
+
+
+      </>
+    )
 }
 export default App
