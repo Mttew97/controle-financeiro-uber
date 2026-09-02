@@ -63,6 +63,8 @@ function App() {
 return (
     <>
      <h1>Controle Financeiro</h1>
+     <section className='lancamentos-diario'>
+      <h2>Lançamento do dia</h2>
      <form onSubmit={handleSubmit}>
      <label htmlFor="corridas">Quantidade de corridas</label>
       <input 
@@ -94,6 +96,9 @@ return (
       />
       <button type="submit">Salvar</button>
       </form>
+      </section>
+       <section className='gastos'>
+      <h2>Resgistrar gasto</h2>
       <form onSubmit={handleSubmitGasto}>
         <label htmlFor='descricaoGasto'>Descreva seu gasto</label>
         <input
@@ -115,6 +120,7 @@ return (
         onChange={(e) => setdataGasto(e.target.value)} />
         <button type="submit">Salvar Gasto</button>
       </form>
+      </section>
     </>
   )
 }
