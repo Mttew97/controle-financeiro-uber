@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import './App.css'
 import { supabase } from './supabaseClient.js'
-
+import { useState, useEffect } from 'react'
 
 
 
@@ -14,6 +13,37 @@ function App() {
     const [valorGasto, setvalorGasto] = useState('')
     const [dataGasto, setdataGasto] = useState('')
     const [abaAtiva, setAbaAtiva] = useState('lancar')
+    const [lancamentos, setLancamentos] = useState([])
+    const [gastosLista, setgastosLista] = useState([])
+
+    useEffect(() => {
+        async function buscarLancamentos() {
+            const { data, error } = await supabase
+            .from('lancamentos_diarios')
+            .select('*')
+            .order('data', { ascending: false })
+
+            if (error) {
+            console.error('Erro ao buscar:', error)
+            } else {
+                setLancamentos(data)
+              }
+        }
+        async function buscarGastos(){
+            const {data, error} = await supabase
+            .from('gastos')
+            .select('*')
+            .order('data' , {ascending: false})
+             if (error) {
+            console.error('Erro ao buscar:', error)
+            } else {
+                setgastosLista(data)
+              }
+
+        }
+        buscarGastos()
+        buscarLancamentos()
+    }, [])
 
     async function handleSubmit(e) {
     e.preventDefault()
@@ -147,7 +177,20 @@ return (
 
       {abaAtiva === 'resumo' &&(
         <>
-          <p>Em breve</p>
+          <ul>
+  {          lancamentos.map((item) => (
+              <li key={item.id}>
+                 {item.data} — {item.corridas} corridas — R$ {item.valor_ganho}
+              </li>
+               ))}
+          </ul>
+          <ul>
+  {          gastosLista.map((item) => (
+              <li key={item.id}>
+                 {item.data} — descrição: {item.descricao} R$ {item.valor}
+              </li>
+               ))}
+          </ul>
         </>
       )}
       
