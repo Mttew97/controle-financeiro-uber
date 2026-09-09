@@ -90,7 +90,13 @@ function App() {
         setvalorGasto('')
         setdescricaoGasto('')
       }}
-
+      const totalGanho = lancamentos.reduce((acumulador, item) => {
+        return acumulador + item.valor_ganho
+      }, 0)
+      const totalGasto = gastosLista.reduce((acumulador, item) => {
+        return acumulador + item.valor
+      }, 0)
+      const saldo = totalGanho - totalGasto
 return (
     <>
    <nav>
@@ -177,6 +183,13 @@ return (
 
       {abaAtiva === 'resumo' &&(
         <>
+          <div className="totais">
+              <p>Total ganho: R$ {totalGanho}</p>
+              <p>Total gasto: R$ {totalGasto}</p>
+              <p>Saldo: R$ {saldo}</p>
+          </div>
+
+          <h3>Receita:</h3>
           <ul>
   {          lancamentos.map((item) => (
               <li key={item.id}>
@@ -184,6 +197,7 @@ return (
               </li>
                ))}
           </ul>
+          <h3>Gastos:</h3>
           <ul>
   {          gastosLista.map((item) => (
               <li key={item.id}>
@@ -191,6 +205,7 @@ return (
               </li>
                ))}
           </ul>
+          
         </>
       )}
       

@@ -126,3 +126,54 @@ nav button.aba-ativa {
   color: #0f1115;
   border-color: #22c55e;
 }
+
+.totais {
+  background: #1a1d24;
+  margin: 1rem;
+  padding: 1.25rem;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-top: 3px solid #60a5fa;
+  text-align: center;
+}
+
+.totais p {
+  margin: 0.4rem 0;
+  font-size: 1rem;
+  color: #a1a1aa;
+}
+
+.totais p:last-child {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f4f4f5;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #2e323c;
+}
+
+ul {
+  list-style: none;
+  margin: 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+ul li {
+  background: #1a1d24;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #e4e4e7;
+  border-left: 3px solid #2e323c;
+}
+
+ul:first-of-type li {
+  border-left-color: #22c55e;
+}
+
+ul:last-of-type li {
+  border-left-color: #f59e0b;
+}
