@@ -16,8 +16,8 @@ function App() {
     const [lancamentos, setLancamentos] = useState([])
     const [gastosLista, setgastosLista] = useState([])
 
-    useEffect(() => {
-        async function buscarLancamentos() {
+
+  async function buscarLancamentos() {
             const { data, error } = await supabase
             .from('lancamentos_diarios')
             .select('*')
@@ -41,8 +41,9 @@ function App() {
               }
 
         }
-        buscarGastos()
-        buscarLancamentos()
+        useEffect(() => {
+           buscarGastos()
+           buscarLancamentos()
     }, [])
 
     async function handleSubmit(e) {
@@ -67,6 +68,8 @@ function App() {
         setData('')
         setValorGanho('')
         setHorasTrabalhadas('')
+        buscarLancamentos()
+        
       }}
 
        async function handleSubmitGasto(e) {
@@ -89,6 +92,7 @@ function App() {
         setdataGasto('')
         setvalorGasto('')
         setdescricaoGasto('')
+        buscarGastos()
       }}
       const totalGanho = lancamentos.reduce((acumulador, item) => {
         return acumulador + item.valor_ganho
