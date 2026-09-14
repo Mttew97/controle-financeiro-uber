@@ -101,6 +101,31 @@ function App() {
         return acumulador + item.valor
       }, 0)
       const saldo = totalGanho - totalGasto
+
+      async function excluirLancamento(id) {
+          const { error } = await supabase
+          .from('lancamentos_diarios')
+          .delete()
+          .eq('id', id)
+        if (error) {
+          console.error('Erro ao excluir:', error)
+        } else {
+          buscarLancamentos()
+        }
+      }
+
+      async function excluirGasto(id) {
+          const { error } = await supabase
+            .from('gastos')
+            .delete()
+            .eq('id', id)
+          if (error) {
+            console.error('Erro ao excluir:', error)} 
+          else {
+          buscarGastos()}
+          
+      }
+
 return (
     <>
    <nav>
@@ -195,9 +220,10 @@ return (
 
           <h3>Receita:</h3>
           <ul>
-  {          lancamentos.map((item) => (
+        {  lancamentos.map((item) => (
               <li key={item.id}>
                  {item.data} — {item.corridas} corridas — R$ {item.valor_ganho}
+                  <button className="btn-excluir" onClick={() => excluirLancamento(item.id)}>Excluir</button>
               </li>
                ))}
           </ul>
@@ -206,15 +232,13 @@ return (
   {          gastosLista.map((item) => (
               <li key={item.id}>
                  {item.data} — descrição: {item.descricao} R$ {item.valor}
+                 <button className="btn-excluir" onClick={() => excluirGasto(item.id)}>Excluir</button>
               </li>
                ))}
           </ul>
           
         </>
       )}
-      
-
-
       </>
     )
 }

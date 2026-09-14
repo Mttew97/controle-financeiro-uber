@@ -177,3 +177,30 @@ ul:first-of-type li {
 ul:last-of-type li {
   border-left-color: #f59e0b;
 }
+
+h3 {
+  margin: 1.2rem 1rem 0.5rem;
+  font-size: 1rem;
+  color: #a1a1aa;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-excluir {
+  background-color: #ef4444;
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-top: 0;
+}
