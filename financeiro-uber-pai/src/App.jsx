@@ -225,14 +225,14 @@ return (
               value={valorGanho}
               onChange={(e) => setValorGanho(e.target.value)}
             />
-            <label htmlFor="HoraComeco">Hora de término</label>
+            <label htmlFor="HoraComeco">Hora de inicio</label>
             <input 
               id="horasComeco"
               type="time" 
               value={horaInicio}
               onChange={(e) => setHoraInicio(e.target.value)}
             />
-            <label htmlFor="HoraTermino">Hora de Início</label>
+            <label htmlFor="HoraTermino">Hora de término</label>
             <input 
               id="horasTermino"
               type="time" 
