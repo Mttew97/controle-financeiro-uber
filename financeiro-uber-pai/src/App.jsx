@@ -21,7 +21,8 @@ function App() {
     const [corridas, setCorridas] = useState('')
     const [data, setData] = useState('')
     const [valorGanho, setValorGanho] = useState('')
-    const [horasTrabalhadas, setHorasTrabalhadas] = useState('')
+    const [horaInicio, setHoraInicio] = useState('')
+    const [horaFim, setHoraFim] = useState('')
     const [descricaoGasto, setdescricaoGasto] = useState('')
     const [valorGasto, setvalorGasto] = useState('')
     const [dataGasto, setdataGasto] = useState('')
@@ -69,9 +70,8 @@ function App() {
           data:data,
           corridas: parseFloat(corridas),
           valor_ganho: parseFloat(valorGanho),
-          horas_trabalhadas: parseFloat(horasTrabalhadas)
-        }
-      ])
+          horas_trabalhadas: calcularHoras(horaInicio, horaFim)
+        }])
       
       if(error) {
           console.error('Erro ao salvar:', error)
@@ -80,7 +80,8 @@ function App() {
         setCorridas('')
         setData('')
         setValorGanho('')
-        setHorasTrabalhadas('')
+        setHoraInicio('')
+        setHoraFim('')
         buscarLancamentos()
         
       }}
@@ -107,6 +108,7 @@ function App() {
         setdescricaoGasto('')
         buscarGastos()
       }}
+
       const totalGanho = lancamentos.reduce((acumulador, item) => {
         return acumulador + item.valor_ganho
       }, 0)
@@ -151,6 +153,10 @@ function App() {
 
       const saldoMes = ganhoMes - gastoMes
 
+      const horasTrabalhadasMes = lancamentos
+      .filter(item => new Date(item.data) >= inicioDoMes)
+      .reduce((acumulador, item) => acumulador + item.horas_trabalhadas, 0)
+
       async function excluirGasto(id) {
           const { error } = await supabase
             .from('gastos')
@@ -161,6 +167,17 @@ function App() {
           else {
           buscarGastos()}
           
+      }
+
+      function calcularHoras(inicio, fim) {
+          const [horaIni, minIni] = inicio.split(':').map(Number)
+          const [horaFim, minFim] = fim.split(':').map(Number)
+
+          const minutosInicio = horaIni * 60 + minIni
+          const minutosFim = horaFim * 60 + minFim
+
+          const diferencaMinutos = minutosFim - minutosInicio
+        return diferencaMinutos / 60        
       }
 
 return (
@@ -208,12 +225,19 @@ return (
               value={valorGanho}
               onChange={(e) => setValorGanho(e.target.value)}
             />
-            <label htmlFor="horasT">Horas trabalhadas</label>
+            <label htmlFor="HoraComeco">Hora de término</label>
             <input 
-              id="horasT"
-              type="number" 
-              value={horasTrabalhadas}
-              onChange={(e) => setHorasTrabalhadas(e.target.value)}
+              id="horasComeco"
+              type="time" 
+              value={horaInicio}
+              onChange={(e) => setHoraInicio(e.target.value)}
+            />
+            <label htmlFor="HoraTermino">Hora de Início</label>
+            <input 
+              id="horasTermino"
+              type="time" 
+              value={horaFim}
+              onChange={(e) => setHoraFim(e.target.value)}
             />
             <button type="submit">Salvar</button>
             </form>
@@ -252,6 +276,7 @@ return (
           <div className="totais">
               <p>Total ganho: R$ {totalGanho.toFixed(2)}</p>
               <p>Total gasto: R$ {totalGasto.toFixed(2)}</p>
+              <p>Total de horas trabalhadas: {horasTrabalhadasMes}h</p>
               <p>Dízimo: R$ {dizimo.toFixed(2)}</p>
               <p>Saldo: R$ {saldoMes.toFixed(2)}</p>
               
@@ -261,7 +286,7 @@ return (
           <ul>
         {  lancamentos.map((item) => (
               <li key={item.id}>
-                 {item.data} — {item.corridas} corridas — R$ {item.valor_ganho}
+                 {item.data} — {item.corridas} corridas — R$ {item.valor_ganho} — Horas trabalhadas  {item.horas_trabalhadas}h
                   <button className="btn-excluir" onClick={() => excluirLancamento(item.id)}>Excluir</button>
               </li>
                ))}
