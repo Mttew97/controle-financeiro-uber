@@ -1,8 +1,21 @@
 import './App.css'
 import { supabase } from './supabaseClient.js'
 import { useState, useEffect } from 'react'
-
-
+function obterInicioDaSemana() {
+      const hoje = new Date()
+      const diaDaSemana = hoje.getDay() // 0 = domingo, 1 = segunda, ..., 6 = sábado
+      const inicioSemana = new Date(hoje)
+      inicioSemana.setDate(hoje.getDate() - diaDaSemana)
+      inicioSemana.setHours(0, 0, 0, 0)
+      return inicioSemana
+   }
+function obterInicioDoMes() {
+  const today = new Date()
+  const inicioDoMes = new Date(today)
+  inicioDoMes.setDate(1)
+  inicioDoMes.setHours(0,0,0,0)
+  return inicioDoMes
+}
 
 function App() {
     const [corridas, setCorridas] = useState('')
@@ -113,6 +126,30 @@ function App() {
           buscarLancamentos()
         }
       }
+      const inicioSemana = obterInicioDaSemana()
+
+      const ganhoSemana = lancamentos
+        .filter(item => new Date(item.data) >= inicioSemana)
+        .reduce((acumulador, item) => acumulador + item.valor_ganho, 0)
+
+      const gastoSemana = gastosLista
+        .filter(item => new Date(item.data) >= inicioSemana)
+        .reduce((acumulador, item) => acumulador + item.valor, 0)
+
+      const saldoSemana = ganhoSemana - gastoSemana
+      const dizimo = saldoSemana * 0.10
+
+      const inicioDoMes = obterInicioDoMes()
+
+      const ganhoMes = lancamentos
+      .filter(item => new Date(item.data) >= inicioDoMes)
+      .reduce ((acumulador, item) => acumulador + item.valor_ganho, 0)
+
+       const gastoMes = gastosLista
+      .filter(item => new Date(item.data) >= inicioDoMes)
+      .reduce ((acumulador, item) => acumulador + item.valor, 0)
+
+      const saldoMes = ganhoMes - gastoMes
 
       async function excluirGasto(id) {
           const { error } = await supabase
@@ -213,9 +250,11 @@ return (
       {abaAtiva === 'resumo' &&(
         <>
           <div className="totais">
-              <p>Total ganho: R$ {totalGanho}</p>
-              <p>Total gasto: R$ {totalGasto}</p>
-              <p>Saldo: R$ {saldo}</p>
+              <p>Total ganho: R$ {totalGanho.toFixed(2)}</p>
+              <p>Total gasto: R$ {totalGasto.toFixed(2)}</p>
+              <p>Dízimo: R$ {dizimo.toFixed(2)}</p>
+              <p>Saldo: R$ {saldoMes.toFixed(2)}</p>
+              
           </div>
 
           <h3>Receita:</h3>
