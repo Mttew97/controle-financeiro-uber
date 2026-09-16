@@ -17,6 +17,47 @@ h1 {
   color: #f4f4f5;
 }
 
+h3 {
+  margin: 1.2rem 1rem 0.5rem;
+  font-size: 1rem;
+  color: #a1a1aa;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Navegação por abas */
+nav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1rem 0;
+  justify-content: center;
+}
+
+nav button {
+  flex: 1;
+  max-width: 200px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.7rem;
+  border: 1px solid #2e323c;
+  border-radius: 8px;
+  background-color: #1a1d24;
+  color: #a1a1aa;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+nav button:hover {
+  border-color: #3f434d;
+}
+
+nav button.aba-ativa {
+  background-color: #22c55e;
+  color: #0f1115;
+  border-color: #22c55e;
+}
+
+/* Cartões (sections dos formulários) */
 section {
   background: #1a1d24;
   margin: 1rem;
@@ -39,6 +80,7 @@ h2 {
   color: #f4f4f5;
 }
 
+/* Formulários */
 form {
   display: flex;
   flex-direction: column;
@@ -72,6 +114,25 @@ section.gastos input:focus {
   border-color: #f59e0b;
 }
 
+select {
+  display: block;
+  width: calc(100% - 2rem);
+  margin: 1rem;
+  font-size: 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #2e323c;
+  border-radius: 8px;
+  background-color: #1a1d24;
+  color: #f4f4f5;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #60a5fa;
+}
+
+/* Botões */
 button {
   font-size: 1rem;
   font-weight: 600;
@@ -96,54 +157,46 @@ button:active {
   opacity: 0.85;
 }
 
-nav {
-  display: flex;
-  gap: 0.5rem;
-  padding: 1rem 1rem 0;
-  justify-content: center;
-}
-
-nav button {
-  flex: 1;
-  max-width: 200px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 0.7rem;
-  border: 1px solid #2e323c;
-  border-radius: 8px;
-  background-color: #1a1d24;
-  color: #a1a1aa;
+.btn-excluir {
+  background-color: #ef4444;
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  border: none;
   cursor: pointer;
-  transition: all 0.15s ease;
+  white-space: nowrap;
+  margin-top: 0;
 }
 
-nav button:hover {
-  border-color: #3f434d;
-}
-
-nav button.aba-ativa {
-  background-color: #22c55e;
-  color: #0f1115;
-  border-color: #22c55e;
-}
-
-.totais {
+/* Blocos de totais (Resumo e Histórico) */
+.totais,
+.totalMes {
   background: #1a1d24;
   margin: 1rem;
   padding: 1.25rem;
   border-radius: 14px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border-top: 3px solid #60a5fa;
   text-align: center;
 }
 
-.totais p {
+.totais {
+  border-top: 3px solid #60a5fa;
+}
+
+.totalMes {
+  border-top: 3px solid #a78bfa;
+}
+
+.totais p,
+.totalMes p {
   margin: 0.4rem 0;
   font-size: 1rem;
   color: #a1a1aa;
 }
 
-.totais p:last-child {
+.totais p:last-child,
+.totalMes p:last-child {
   font-size: 1.3rem;
   font-weight: 700;
   color: #f4f4f5;
@@ -152,6 +205,7 @@ nav button.aba-ativa {
   border-top: 1px solid #2e323c;
 }
 
+/* Listas (Receita e Gastos) */
 ul {
   list-style: none;
   margin: 1rem;
@@ -161,7 +215,11 @@ ul {
   gap: 0.6rem;
 }
 
-ul li {
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
   background: #1a1d24;
   padding: 0.85rem 1rem;
   border-radius: 10px;
@@ -176,31 +234,4 @@ ul:first-of-type li {
 
 ul:last-of-type li {
   border-left-color: #f59e0b;
-}
-
-h3 {
-  margin: 1.2rem 1rem 0.5rem;
-  font-size: 1rem;
-  color: #a1a1aa;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-excluir {
-  background-color: #ef4444;
-  color: white;
-  font-size: 0.8rem;
-  padding: 0.4rem 0.7rem;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-  margin-top: 0;
 }

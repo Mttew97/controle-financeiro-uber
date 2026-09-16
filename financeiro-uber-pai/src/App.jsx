@@ -29,6 +29,7 @@ function App() {
     const [abaAtiva, setAbaAtiva] = useState('lancar')
     const [lancamentos, setLancamentos] = useState([])
     const [gastosLista, setgastosLista] = useState([])
+    const [mesSelecionado, setMesSelecionado] = useState('')
 
 
   async function buscarLancamentos() {
@@ -180,6 +181,20 @@ function App() {
         return diferencaMinutos / 60        
       }
 
+      const mesesComDados = [...new Set(
+          lancamentos.map(item => item.data.slice(0, 7))
+      )]
+
+      const ganhoMesSelecionado = lancamentos
+        .filter(item => item.data.slice(0, 7) === mesSelecionado)
+        .reduce((acumulador, item) => acumulador + item.valor_ganho, 0)
+
+      const gastoMesSelecionado = gastosLista
+        .filter(item => item.data.slice(0, 7) === mesSelecionado)
+        .reduce((acumulador, item) => acumulador + item.valor, 0)
+
+      const saldoMesSelecionado = ganhoMesSelecionado - gastoMesSelecionado
+
 return (
     <>
    <nav>
@@ -195,6 +210,14 @@ return (
         >
           Resumo
         </button>
+        <button
+          className={abaAtiva === 'historico' ? 'aba-ativa' : ''}
+          onClick={() => setAbaAtiva('historico')}
+          
+        >
+          Histórico
+        </button>
+
   </nav>
     
     <h1>Controle Financeiro</h1>
@@ -272,38 +295,54 @@ return (
       )}
 
       {abaAtiva === 'resumo' &&(
-        <>
-          <div className="totais">
-              <p>Total ganho: R$ {totalGanho.toFixed(2)}</p>
-              <p>Total gasto: R$ {totalGasto.toFixed(2)}</p>
-              <p>Total de horas trabalhadas: {horasTrabalhadasMes}h</p>
-              <p>Dízimo: R$ {dizimo.toFixed(2)}</p>
-              <p>Saldo: R$ {saldoMes.toFixed(2)}</p>
-              
-          </div>
+          <>
+              <div className="totais">
+                <p>Total ganho: R$ {totalGanho.toFixed(2)}</p>
+                <p>Total gasto: R$ {totalGasto.toFixed(2)}</p>
+                <p>Total de horas trabalhadas: {horasTrabalhadasMes}h</p>
+                <p>Dízimo: R$ {dizimo.toFixed(2)}</p>
+                <p>Saldo: R$ {saldoMes.toFixed(2)}</p>
+                
+            </div>
 
-          <h3>Receita:</h3>
-          <ul>
-        {  lancamentos.map((item) => (
-              <li key={item.id}>
-                 {item.data} — {item.corridas} corridas — R$ {item.valor_ganho} — Horas trabalhadas  {item.horas_trabalhadas}h
-                  <button className="btn-excluir" onClick={() => excluirLancamento(item.id)}>Excluir</button>
-              </li>
-               ))}
-          </ul>
-          <h3>Gastos:</h3>
-          <ul>
-  {          gastosLista.map((item) => (
-              <li key={item.id}>
-                 {item.data} — descrição: {item.descricao} R$ {item.valor}
-                 <button className="btn-excluir" onClick={() => excluirGasto(item.id)}>Excluir</button>
-              </li>
-               ))}
-          </ul>
-          
+            <h3>Receita:</h3>
+            <ul>
+          {  lancamentos.map((item) => (
+                <li key={item.id}>
+                  {item.data} — {item.corridas} corridas — R$ {item.valor_ganho} — Horas trabalhadas  {item.horas_trabalhadas}h
+                    <button className="btn-excluir" onClick={() => excluirLancamento(item.id)}>Excluir</button>
+                </li>
+                ))}
+            </ul>
+            <h3>Gastos:</h3>
+            <ul>
+    {          gastosLista.map((item) => (
+                <li key={item.id}>
+                  {item.data} — descrição: {item.descricao} R$ {item.valor}
+                  <button className="btn-excluir" onClick={() => excluirGasto(item.id)}>Excluir</button>
+                </li>
+                ))}
+            </ul>
+            
+            </>
+            )}
+
+      {abaAtiva === 'historico' &&(
+        <>
+          <select value={mesSelecionado} onChange={(e) => setMesSelecionado(e.target.value)}>
+              {mesesComDados.map((mes) => (
+              <option key={mes} value={mes}>{mes}</option>
+            ))}
+          </select>
+          <div className="totalMes">
+              <p>Total ganho: R$ {ganhoMesSelecionado.toFixed(2)}</p>
+              <p>Total gasto: R$ {gastoMesSelecionado.toFixed(2)}</p>
+              <p>Saldo: R$ {saldoMesSelecionado.toFixed(2)}</p>
+          </div>
         </>
       )}
       </>
-    )
-}
+  )
+    }
+
 export default App
